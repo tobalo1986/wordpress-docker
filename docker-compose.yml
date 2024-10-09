@@ -1,0 +1,27 @@
+
+version: '3'
+
+services:
+  wordpress:
+    image: wordpress
+    ports:
+      - "8080:80"  # Puerto 8080 en tu máquina, 80 en el contenedor
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: exampleuser
+      WORDPRESS_DB_PASSWORD: examplepass
+      WORDPRESS_DB_NAME: exampledb
+    depends_on:
+      - db
+    volumes:
+      - ./wordpress:/var/www/html # opcional, para que puedas modificar archivos locales
+
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: exampledb
+      MYSQL_USER: exampleuser
+      MYSQL_PASSWORD: examplepass
+      MYSQL_ROOT_PASSWORD: somewordpress
+    volumes:
+      - ./db_data:/var/lib/mysql # opcional, para mantener los datos de MySQL persistentes
